@@ -26,6 +26,18 @@ void setup(){
 
 void drive(int speed_left, int speed_right){
 
+
+    if (speed_right > 0) {
+        
+        digitalWrite(IN3, LOW);
+        digitalWrite(IN4, HIGH);
+        
+    } else {
+      
+        digitalWrite(IN3, HIGH);
+        digitalWrite(IN4, LOW);
+    }
+    
     if (speed_left > 0) {
         digitalWrite(IN1, LOW);
         digitalWrite(IN2, HIGH);
@@ -34,18 +46,16 @@ void drive(int speed_left, int speed_right){
         digitalWrite(IN2, LOW);
     }
 
-    if (speed_right > 0) {
-        digitalWrite(IN3, LOW);
-        digitalWrite(IN4, HIGH);
-    } else {
-        digitalWrite(IN3, HIGH);
-        digitalWrite(IN4, LOW);
-    }
 
-    analogWrite(ENA, abs(speed_left))
-    analogWrite(ENA, abs(speed_right))
+    analogWrite(ENA, abs(speed_left));
+    analogWrite(ENB, abs(speed_right));
 
 }
 
 
-void loop(){}
+void loop(){
+  drive(100, 255);
+  delay(2000);
+  drive(-255, -100);
+  delay(2000);
+}
