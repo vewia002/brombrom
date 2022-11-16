@@ -40,20 +40,21 @@ void setup(){
     rotate(90);
     delay(1000);
 }
+//Function to rotate servo
 void rotate(int rotation){
   servo1.write(rotation);
 }
 
+//Drive function which gives speed at both sides
 void drive(int speed_left, int speed_right){
 
-
-    if (speed_right > 0) {
-        
+    //Turn right if speed_right is positive
+    if (speed_right > 0) { 
         digitalWrite(IN3, LOW);
         digitalWrite(IN4, HIGH);
         
     } else {
-      
+    //Turn left if speed_right is not positive
         digitalWrite(IN3, HIGH);
         digitalWrite(IN4, LOW);
     }
@@ -104,12 +105,9 @@ int avstand = 0;
 
 
 void loop(){
-
-    
      if (get_distance() > 30){
       rotate(90);
       drive(255,255);
-
      }
      else{
       stop_drive();
@@ -137,7 +135,5 @@ void loop(){
       stop_drive();
        
      }
-
-
 }
- 
+  
