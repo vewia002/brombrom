@@ -38,11 +38,15 @@ void setup(){
     
     //Motor Control - Motor A: IN1,IN2 & Motor B: IN3,IN4
     rotate(90);
+
     delay(1000);
 }
+
+int pulse = 0;
 //Function to rotate servo
 void rotate(int rotation){
-  servo1.write(rotation);
+  pulse = map(rotation, 0, 180, 350, 2950);
+  servo1.write(pulse);
 }
 
 //Drive function which gives speed at both sides
