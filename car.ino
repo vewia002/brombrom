@@ -2,6 +2,7 @@
 #include <Servo.h>
 
 
+
 class Car {
 
 
@@ -16,15 +17,17 @@ class Car {
         int SERVO_PIN;
         int ECHO_PIN;
         int TRIG_PIN;
+        int LED_RIGHT;
+        int LED_LEFT;
         long duration; // variable for the duration of sound wave travel
-        int distance;
+        int measured_distance;
         Servo nav_servo;
 
 
     public:
 
         // Assign input variables to private variables
-        Car(int in1, int in2, int ena, int in3, int in4, int enb, int servo_pin, int echo_pin, int trig_pin){
+        Car(int in1, int in2, int ena, int in3, int in4, int enb, int servo_pin, int echo_pin, int trig_pin, int led_right,int led_left){
             this->IN1 = in1;
             this->IN2 = in2;
             this->IN3 = in3;
@@ -34,6 +37,8 @@ class Car {
             this->SERVO_PIN = servo_pin;
             this->ECHO_PIN = echo_pin;
             this->TRIG_PIN = trig_pin;
+            this->LED_RIGHT = led_right;
+            this->LED_LEFT = led_left;
 
         }
     
@@ -45,6 +50,9 @@ class Car {
             pinMode(IN4, OUTPUT);
             pinMode(ENA, OUTPUT);
             pinMode(ENB, OUTPUT); 
+            pinMode(LED_RIGHT, OUTPUT);
+            pinMode(LED_LEFT, OUTPUT);
+
           
             // Servo setup
             nav_servo.attach(SERVO_PIN);
@@ -52,6 +60,13 @@ class Car {
             // Distance sensor setup
             pinMode(TRIG_PIN, OUTPUT); // Sets the trigPin as an OUTPUT
             pinMode(ECHO_PIN, INPUT); // Sets the echoPin as an INPUT
+
+            // Turn leds on and off
+            digitalWrite(LED_LEFT, HIGH);
+            digitalWrite(LED_RIGHT, HIGH);
+            delay(1000);
+            digitalWrite(LED_LEFT, LOW);
+            digitalWrite(LED_RIGHT, LOW);
 
     }
         
@@ -110,58 +125,77 @@ class Car {
         // Reads the echoPin, returns the sound wave travel time in microseconds
         duration = pulseIn(ECHO_PIN, HIGH);
         // Calculating the distance
-        distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-        // Displays the distance on the Serial Monitor
-        //  Serial.print("Distance: ");
-        //  Serial.print(distance);
-        //  Serial.println(" cm");
-        return distance;
+        measured_distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+        return measured_distance;
     }
-
 
 
     void navigate(){
-        int vinkel = 0;
-        int avstand = 0;
+        // When the servo is rotated, max_dist is the longest
+        // distance the distance-sensor measures, angel is
+        // the angel of the servo when the max_dist was measured
+        int max_dist = 0;
+        int angel = 0;
+        // Variable for keeping comparing distances measured by distane-sensor
+        int current_dist = 0;
+
+        // Run navigation loop forever
         while(true){
-                    if (get_distance() > 30){
-            rotate_servo(90);
-            drive(255,255);
-            }
-            else{
-            stop_drive();
-                rotate_servo(0);
-
-            for(int i=0;i<180; i+=5){
-                rotate_servo(i);
-                delay(150);
-                int current_dist = get_distance();
-                if (current_dist > avstand){
-                vinkel = i;
-                avstand = current_dist;
-                }
-            }
-            drive(-255,-255);
-            delay(100);
-            stop_drive();
-            if (vinkel < 91){
-                drive(255,-255);
-                delay(sqrt(vinkel)*60);
+            // Check if an object is blocking the robot
+            // (something closer than 30 cm)
+            if (get_distance() > 30){
+                // Turn the distance-sensor forward
+                rotate_servo(90);
+                // Drive forward
+                drive(255,255);
             } else {
-                drive(-255,255);
-                delay(sqrt(vinkel-90)*60);
-            }
-            stop_drive();
+                // Something is blocking the car's path
+                // Stop driving
+                stop_drive();
+                // Turn the distance-sensor sideways
+                rotate_servo(0);
+            
+                // Rotate the distance-sensor in 5deg increments
+                // and find the longest distance (path that is not blocked)
+                for(int i=0; i<180; i+=5){
+                    // Rotate sensor
+                    rotate_servo(i);
+                    // Give the servo time to rotate
+                    delay(150);
+                    // Measure distance
+                    current_dist = get_distance();
+                    // Check if the current distance is a new
+                    // max distance
+                    if (current_dist > max_dist){
+                        angel = i;
+                        max_dist = current_dist;
+                    }
+                }
+                // Drive a little backwards
+                drive(-255,-255);
+                delay(100);
+                stop_drive();
 
+                // Turn based on the angel 
+                if (angel < 91){
+                    drive(255,-255);
+                    digitalWrite(LED_LEFT, HIGH);
+                    delay(sqrt(angel)*60);
+                    digitalWrite(LED_LEFT, LOW);
+                } else {
+                    drive(-255,255);
+                    digitalWrite(LED_RIGHT, HIGH);
+                    delay(sqrt(angel-90)*60);
+                    digitalWrite(LED_RIGHT, LOW);
+                }
+                stop_drive();
+            }
         }
     }
-    }
-
-
 };
 
 
-Car myCar(8, 7, 9, 5, 4, 3, 11, 13, 12);
+Car myCar(8, 7, 9, 5, 4, 3, 11, 13, 12, 6, 10);
 
 void setup(){
     Serial.begin(9600);
@@ -171,12 +205,4 @@ void setup(){
 
 void loop(){
     myCar.navigate();
-    // myCar.rotate_servo(90);
-    // delay(500);
-    
-    // myCar.rotate_servo(0);
-    // delay(500);
-    
-    // myCar.rotate_servo(180);
-    // delay(500);
 }
