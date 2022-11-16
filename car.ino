@@ -172,6 +172,7 @@ class Car {
                     }
                 }
                 // Drive a little backwards
+                rotate_servo(90);
                 drive(-255,-255);
                 delay(100);
                 stop_drive();
