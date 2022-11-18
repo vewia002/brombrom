@@ -148,6 +148,7 @@ class Car {
                 rotate_servo(90);
                 // Drive forward
                 drive(255,255);
+
             } else {
                 // Something is blocking the car's path
                 // Stop driving
@@ -162,8 +163,12 @@ class Car {
                     rotate_servo(i);
                     // Give the servo time to rotate
                     delay(150);
+                    // Reset max_dist and angel
+                    max_dist = 0;
+                    angel = 0;
                     // Measure distance
                     current_dist = get_distance();
+                    Serial.print(angel); Serial.print( , ); Serial.println(distance)
                     // Check if the current distance is a new
                     // max distance
                     if (current_dist > max_dist){
@@ -181,7 +186,7 @@ class Car {
                 if (angel < 91){
                     drive(255,-255);
                     digitalWrite(LED_LEFT, HIGH);
-                    delay(sqrt(angel)*60);
+                    delay(sqrt(90-angel)*60);
                     digitalWrite(LED_LEFT, LOW);
                 } else {
                     drive(-255,255);
