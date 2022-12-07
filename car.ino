@@ -155,27 +155,36 @@ class Car {
                 stop_drive();
                 // Turn the distance-sensor sideways
                 rotate_servo(0);
-            
+                // Reset max_dist and angel
+                max_dist = 0;
+                angel = 0;
                 // Rotate the distance-sensor in 5deg increments
                 // and find the longest distance (path that is not blocked)
                 for(int i=0; i<180; i+=5){
                     // Rotate sensor
                     rotate_servo(i);
                     // Give the servo time to rotate
-                    delay(150);
-                    // Reset max_dist and angel
-                    max_dist = 0;
-                    angel = 0;
+                    delay(100);
                     // Measure distance
                     current_dist = get_distance();
-                    Serial.print(angel); Serial.print( , ); Serial.println(distance)
+                    Serial.print("Angel: ");
+                    Serial.print(i); 
+                    Serial.print(","); 
+                    Serial.print("Distance: ");
+                    Serial.println(current_dist);
                     // Check if the current distance is a new
                     // max distance
                     if (current_dist > max_dist){
                         angel = i;
                         max_dist = current_dist;
+                        Serial.print("New max-dist: ");
+                        Serial.println(max_dist);
                     }
                 }
+                Serial.print("Final max-dist: ");
+                Serial.println(max_dist);
+                Serial.print("Angel: ");
+                Serial.println(angel);
                 // Drive a little backwards
                 rotate_servo(90);
                 drive(-255,-255);
@@ -184,15 +193,17 @@ class Car {
 
                 // Turn based on the angel 
                 if (angel < 91){
-                    drive(255,-255);
-                    digitalWrite(LED_LEFT, HIGH);
-                    delay(sqrt(90-angel)*60);
-                    digitalWrite(LED_LEFT, LOW);
-                } else {
+                    Serial.println("Turning right");
                     drive(-255,255);
                     digitalWrite(LED_RIGHT, HIGH);
-                    delay(sqrt(angel-90)*60);
+                    delay(sqrt(90-angel)*60);
                     digitalWrite(LED_RIGHT, LOW);
+                } else {
+                    Serial.println("Turning left");
+                    drive(255,-255);
+                    digitalWrite(LED_LEFT, HIGH);
+                    delay(sqrt(angel-90)*60);
+                    digitalWrite(LED_LEFT, LOW);
                 }
                 stop_drive();
             }
