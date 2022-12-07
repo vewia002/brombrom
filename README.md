@@ -9,7 +9,6 @@ In this project a car has been made using an Arduino uno, a distance sensor, a s
 
 
 ## Use 
-
 If you make the circuit excactly as in the picture and upload the code, the car will the drive. 
 
 ## List of files 
@@ -37,4 +36,7 @@ Measures distance to closest object with the distance sensor
 Rotates servo, then finds at which angle the distance i longest. The car proceeds to drive backwards, and then turns to the preferred angle 
 
 ## Circuit
+Follow this diagram to create the circuit that controls the motors
+![alt text](https://github.com/vewia002/brombrom/blob/main/Wiring-L293D-Motor-Driver-IC-with-DC-Motors-Arduino.png?raw=true)
+
 
