@@ -38,5 +38,4 @@ Rotates servo, then finds at which angle the distance i longest. The car proceed
 ## Circuit
 Follow this diagram to create the circuit that controls the motors
 ![alt text](https://github.com/vewia002/brombrom/blob/main/Wiring-L293D-Motor-Driver-IC-with-DC-Motors-Arduino.png?raw=true)
-
-
+![alt text 2](https://github.com/vewia002/brombrom/blob/main/wiring_led_distance_servo.png)
