@@ -3,6 +3,8 @@ Arduino prosjekt IT2
 
 Laget av Martin Ansteensen og Vemund S. Wilhelmsen
 
+![Bilen](https://github.com/vewia002/brombrom/blob/main/bil.jpg)
+
 ## Beskrivelse
 
 I dette prosjektet har en bil blitt laget med en Arduino Uno, en avstandssensor, en servo og noen andre komponenter. Bilen vil kjøre framover til avstandssensoren registrerer en liten distanse. Bilen vil da stoppe, og servoen med sensoren på toppen vil rotere til sensoren finner den vinkelen som korresponderer med den lengste avstanden. Bilen vil deretter kjøre i denne retningen. 
@@ -15,6 +17,7 @@ Hvis du lager kretsen akkurat som i bildet og laster opp Car.ino på arduinoen v
 * tinkerCadCircuits.png
 * wiring_led_distance_servo.png
 * Wiring-L293D-Motor-Driver-IC-with-DC-motors-Arduino.png
+* bil.jpg
 
 
 ## Car klasse
