@@ -1,41 +1,57 @@
 # Brombrom
-Arduino project IT2
+Arduino prosjekt IT2
 
-MADE BY: Martin Ansteensen and Vemund S. Wilhelmsen
+Laget av Martin Ansteensen og Vemund S. Wilhelmsen
 
-## Description
+## Beskrivelse
 
-In this project a car has been made using an Arduino uno, a distance sensor, a servo, wheels and some other components. The car will drive forward until the distance sensor registers a short distance. The car will then stop, and the servo with the sensor on top will rotate and the sensor will find the angle which gives the longest distance. The car will then drive in this direction. 
+I dette prosjektet har en bil blitt laget med en Arduino Uno, en avstandssensor, en servo og noen andre komponenter. Bilen vil kjøre framover til avstandssensoren registrerer en liten distanse. Bilen vil da stoppe, og servoen med sensoren på toppen vil rotere til sensoren finner den vinkelen som korresponderer med den lengste avstanden. Bilen vil deretter kjøre i denne retningen. 
 
+## Bruk
+Hvis du lager kretsen akkurat som i bildet og laster opp Car.ino på arduinoen vil bilen kjøre helt av seg selv.
 
-## Use 
-If you make the circuit excactly as in the picture and upload the code, the car will the drive. 
-
-## List of files 
+## Liste over filer
 * Car.ino
+* tinkerCadCircuits.png
+* wiring_led_distance_servo.png
+* Wiring-L293D-Motor-Driver-IC-with-DC-motors-Arduino.png
 
 
-## Car class
-This class is for navigation and driving for the car
+## Car klasse
+Denne klassen er for navigasjon og kjøring av bilen
 
-### Methods 
+### Metoder 
 
 #### drive
-The drive method takes speed on left wheels and speed on right wheels as input, and then makes the wheels drive with the given speed
+
+drive metoden tar fart på de venstre hjulene og fart på de høyre hjulene som input og får deretter hjulene til å kjøre med de gitte fartene 
 
 #### stop_drive
-Makes all wheels stop
+Får alle hjul til å stoppe
 
 #### rotate_servo
-Makes the servo rotate between 0 and 180 degrees
+Får servoen til å rotere mellom 0 og 180 grader.
 
 #### get_distance
-Measures distance to closest object with the distance sensor
+Måler avstanden til nærmeste objekt 
 
 #### navigate
-Rotates servo, then finds at which angle the distance i longest. The car proceeds to drive backwards, and then turns to the preferred angle 
 
-## Circuit
-Follow this diagram to create the circuit that controls the motors
-![alt text](https://github.com/vewia002/brombrom/blob/main/Wiring-L293D-Motor-Driver-IC-with-DC-Motors-Arduino.png?raw=true)
-![alt text 2](https://github.com/vewia002/brombrom/blob/main/wiring_led_distance_servo.png)
+Roterer servoen, finner deretter vinkelen hvor avstanden er lengst. Bilen vil videre kjøre bakover, og deretter svinge mot den foretrukne vinkelen
+
+## Krets og komponenter
+Du vil trenge:
+* 4 små DC-motorer
+* 2 LEDS
+* 1 L293D-motordriverchip
+* En del ledninger
+* 1 avstandssensor 
+* 1 servo (5V)
+* Batteripakke rundt 9V
+* En plate til å montere bilen på
+
+Følg disse diagramene for å koble opp bilen. 
+![Motorkrets](https://github.com/vewia002/brombrom/blob/main/Wiring-L293D-Motor-Driver-IC-with-DC-Motors-Arduino.png?raw=true)
+![Leds- og servokrets](https://github.com/vewia002/brombrom/blob/main/wiring_led_distance_servo.png)
+
+
